@@ -1,3 +1,4 @@
+import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -30,7 +31,22 @@ class _MyReviewCardState extends State<MyReviewCard> {
       child: Container(
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-            color: Color(0xff1f1e21), borderRadius: BorderRadius.circular(20)),
+            color: Color(0xff1f1e21),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: lightColor.withOpacity(0.3),
+                offset: Offset(5, 5),
+                spreadRadius: 0,
+                blurRadius: 9,
+              ),
+              BoxShadow(
+                color: bgColor.withOpacity(0.3),
+                offset: Offset(-6, -6),
+                spreadRadius: 0,
+                blurRadius: 6,
+              )
+            ]),
         child: Column(
           children: [
             renderCategory(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class RankingScreen extends StatelessWidget {
   @override
@@ -6,7 +7,7 @@ class RankingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text('Ranking'),
+        child: IconButton(onPressed: () {}, icon: Icon(LineIcons.addressBook)),
       ),
     );
   }

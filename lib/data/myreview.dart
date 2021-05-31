@@ -10,6 +10,7 @@ class MyReview extends Table {
   TextColumn? get categoryDetail => text().withLength(min: 1, max: 30)();
   TextColumn? get title => text().withLength(min: 1, max: 30)();
   TextColumn? get content => text()();
+  // BlobColumn? get image => blob()();
   DateTimeColumn? get createdAt =>
       dateTime().withDefault(Constant(DateTime.now()))();
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -9,6 +11,7 @@ class MyReviewCard extends StatefulWidget {
   final String? title;
   final String? content;
   final DateTime? createdAt;
+  // final File? image;
 
   MyReviewCard({
     required this.stars,
@@ -17,6 +20,7 @@ class MyReviewCard extends StatefulWidget {
     required this.title,
     required this.content,
     required this.createdAt,
+    // required this.image,
   });
 
   @override
@@ -61,6 +65,13 @@ class _MyReviewCardState extends State<MyReviewCard> {
       ),
     );
   }
+
+  // renderImageBox() {
+  //   if (widget.image == null)
+  //     return Container();
+  //   else
+  //     return Image.file(widget.image);
+  // }
 
   renderStars() {
     return Row(

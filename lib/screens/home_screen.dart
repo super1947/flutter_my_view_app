@@ -3,8 +3,8 @@ import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:line_icons/line_icons.dart';
 // import "package:collection/collection.dart";
 
 class HomeScreen extends StatefulWidget {
@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, index) {
                       final item = data[index];
                       return MyReviewCard(
+                        // image: item.image,
                         stars: item.stars,
                         category: item.category,
                         categoryDetail: item.categoryDetail,
@@ -103,17 +104,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _buildCategoryCard(LineIcons.couch, Colors.cyanAccent,
-                            '가전/가구/\n\   인테리어'),
+                        _buildCategoryCard(FontAwesomeIcons.couch,
+                            Color(0xff0092cc), '가전/가구/\n\   인테리어'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(LineIcons.music,
-                            Colors.deepOrangeAccent, '음악/음반/\n   아티스트'),
+                        _buildCategoryCard(FontAwesomeIcons.guitar,
+                            Color(0xff05F4B7), '음악/음반/\n   아티스트'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(LineIcons.video,
-                            Colors.lightGreenAccent, '영화/드라마/\n 예능/콘텐츠'),
+                        _buildCategoryCard(FontAwesomeIcons.video,
+                            Color(0xff5626C4), '영화/드라마/\n 예능/콘텐츠'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(LineIcons.hamburger,
-                            Colors.deepPurpleAccent, '음식/음식점/\n   프랜차이즈'),
+                        _buildCategoryCard(FontAwesomeIcons.hamburger,
+                            Color(0xffFB8122), '음식/음식점/\n   프랜차이즈'),
+                        SizedBox(width: 20),
+                        _buildCategoryCard(FontAwesomeIcons.solidCommentDots,
+                            Color(0xffFA255E), '기타'),
                       ],
                     ),
                   ),
@@ -149,7 +153,7 @@ Widget _buildCategoryCard(icon, color, title) {
       Container(
         height: 100.0,
         width: 100.0,
-        margin: EdgeInsets.only(bottom: 16.0),
+        margin: EdgeInsets.only(bottom: 10.0),
         decoration: BoxDecoration(
             color: Color(0xff1f1e21),
             borderRadius: BorderRadius.circular(16),
@@ -167,10 +171,10 @@ Widget _buildCategoryCard(icon, color, title) {
                 blurRadius: 6,
               )
             ]),
-        child: Center(
+        child: Container(
           child: Icon(
             icon,
-            size: 46,
+            size: 37,
             color: color,
           ),
         ),

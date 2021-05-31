@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:app/controller/app_controller.dart';
 import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
+import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:moor/moor.dart' hide Column;
 
 class WriteScreen extends StatefulWidget {
@@ -31,10 +37,66 @@ class _WriteScreenState extends State<WriteScreen> {
 
   String value = categoryItems.first;
 
+  late File _image;
+  get image => _image;
+
+  Future getImage(ImageSource imageSource) async {
+    final pickedFile = await ImagePicker().getImage(source: imageSource);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        
+      } else {
+        print('no image seleted');
+      }
+    });
+  }
+
+  renderImagePickerBox(IconData icon, String text, ImageSource imagesource) {
+    return GestureDetector(
+      onTap: () {
+        getImage(imagesource);
+      },
+      child: Container(
+          height: 100.0,
+          width: 100.0,
+          margin: EdgeInsets.only(bottom: 10.0),
+          decoration: BoxDecoration(
+              color: Color(0xff1f1e21),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  offset: Offset(3, 3),
+                  spreadRadius: 0,
+                  blurRadius: 9,
+                ),
+                BoxShadow(
+                  color: bgColor.withOpacity(0.3),
+                  offset: Offset(-6, -6),
+                  spreadRadius: 0,
+                  blurRadius: 6,
+                )
+              ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                icon,
+                size: 50.0,
+              ),
+              Text(text)
+            ],
+          )),
+    );
+  }
+
   renderTextFields() {
     return Column(
       children: [
         DropdownButtonFormField<String>(
+          dropdownColor: Color(0xff1f1e21),
           decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
@@ -216,6 +278,16 @@ class _WriteScreenState extends State<WriteScreen> {
               key: formKey,
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      renderImagePickerBox(
+                          LineIcons.camera, '사진 찍기', ImageSource.camera),
+                      SizedBox(width: 30.0),
+                      renderImagePickerBox(
+                          LineIcons.image, '이미지에서 선택', ImageSource.gallery),
+                    ],
+                  ),
                   renderTextFields(),
                   SizedBox(
                     height: 10,

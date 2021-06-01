@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:moor/moor.dart' hide Column;
 
@@ -25,30 +24,36 @@ class _WriteScreenState extends State<WriteScreen> {
   String? title;
   String? content;
   String? categoryDetail;
-
+  String? imagepath;
   String? categoryResult;
+
+  @override
+  void initState() {
+    super.initState();
+    imagepath = '';
+  }
 
   static final List<String> categoryItems = <String>[
     '가전/가구/인테리어',
-    '음식/영화/도서',
-    '의류/잡화/스포츠',
+    '음악/음반/아티스트',
+    '영화/드라마/예능/콘텐츠',
+    '음식/음식점/프랜차이즈',
     '기타'
   ];
 
   String value = categoryItems.first;
 
-  late File _image;
-  get image => _image;
-
   Future getImage(ImageSource imageSource) async {
-    final pickedFile = await ImagePicker().getImage(source: imageSource);
+    final _picker = ImagePicker();
+    final pickedFile = await _picker.getImage(source: imageSource);
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        
+        this.imagepath = File(pickedFile.path).path;
+        print(imagepath);
       } else {
-        print('no image seleted');
+        this.imagepath = '';
+        print(imagepath);
       }
     });
   }
@@ -84,7 +89,7 @@ class _WriteScreenState extends State<WriteScreen> {
             children: [
               Icon(
                 icon,
-                size: 50.0,
+                size: 40.0,
               ),
               Text(text)
             ],
@@ -231,19 +236,21 @@ class _WriteScreenState extends State<WriteScreen> {
                 if (this.content != null &&
                     this.title != null &&
                     this.category != null &&
-                    this.stars != null &&
-                    this.categoryDetail != null) {
+                    this.stars != null) {
                   final dao = GetIt.instance<MyReviewDao>();
-                  await dao.insertMyReview(
-                    MyReviewCompanion(
-                      stars: Value(this.stars!),
-                      title: Value(this.title!),
-                      content: Value(this.content!),
-                      category: Value(this.category!),
-                      categoryDetail: Value(this.categoryDetail!),
-                    ),
+                  var myReviewCompanion = MyReviewCompanion(
+                    stars: Value(this.stars!),
+                    title: Value(this.title!),
+                    content: Value(this.content!),
+                    category: Value(this.category!),
+                    categoryDetail: Value(this.categoryDetail!),
+                    imagepath: Value(this.imagepath!),
                   );
-
+                  await dao.insertMyReview(
+                    myReviewCompanion,
+                  );
+                  print(categoryDetail);
+                  print(imagepath);
                   AppController.to.currentIndex.value = 0;
                 }
               }
@@ -285,7 +292,7 @@ class _WriteScreenState extends State<WriteScreen> {
                           LineIcons.camera, '사진 찍기', ImageSource.camera),
                       SizedBox(width: 30.0),
                       renderImagePickerBox(
-                          LineIcons.image, '이미지에서 선택', ImageSource.gallery),
+                          LineIcons.image, '이미지 선택', ImageSource.gallery),
                     ],
                   ),
                   renderTextFields(),

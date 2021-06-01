@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -11,16 +10,16 @@ class MyReviewCard extends StatefulWidget {
   final String? title;
   final String? content;
   final DateTime? createdAt;
-  // final File? image;
+  final String? imagepath;
 
   MyReviewCard({
     required this.stars,
     required this.category,
-    required this.categoryDetail,
+    this.categoryDetail,
     required this.title,
     required this.content,
     required this.createdAt,
-    // required this.image,
+    this.imagepath,
   });
 
   @override
@@ -40,74 +39,93 @@ class _MyReviewCardState extends State<MyReviewCard> {
             boxShadow: [
               BoxShadow(
                 color: lightColor.withOpacity(0.3),
-                offset: Offset(5, 5),
+                offset: Offset(4, 4),
                 spreadRadius: 0,
                 blurRadius: 9,
               ),
               BoxShadow(
                 color: bgColor.withOpacity(0.3),
-                offset: Offset(-6, -6),
+                offset: Offset(-3, -3),
                 spreadRadius: 0,
                 blurRadius: 6,
               )
             ]),
-        child: Column(
-          children: [
-            renderCategory(),
-            renderCategoryDetail(),
-            renderTitle(),
-            SizedBox(
-              height: 5,
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
+            height: 80,
+            width: 70,
+            child: renderImageBox(),
+          ),
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                renderCategory(),
+                renderCategoryDetail(),
+                renderTitle(),
+                SizedBox(
+                  height: 5,
+                ),
+                renderContent(),
+              ],
             ),
-            renderContent(),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
 
-  // renderImageBox() {
-  //   if (widget.image == null)
-  //     return Container();
-  //   else
-  //     return Image.file(widget.image);
-  // }
+  renderImageBox() {
+    if (widget.imagepath != '')
+      return Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.file(
+            File(widget.imagepath!),
+            fit: BoxFit.fill,
+          ),
+        ),
+      );
+    else
+      return Container();
+  }
 
   renderStars() {
-    return Row(
-      children: [
-        RatingBarIndicator(
-          rating: widget.stars!,
-          itemBuilder: (context, index) => Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          itemCount: 5,
-          itemSize: 20.0,
-          direction: Axis.horizontal,
+    return Container(
+      child: RatingBarIndicator(
+        rating: widget.stars!,
+        itemBuilder: (context, index) => Icon(
+          Icons.star,
+          color: Colors.amber,
         ),
-      ],
+        itemCount: 5,
+        itemSize: 20.0,
+        direction: Axis.horizontal,
+      ),
     );
   }
 
   renderCategory() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          widget.category!,
-          style: TextStyle(
-            color: Colors.grey,
+    return Container(
+      width: 250,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            widget.category!,
+            style: TextStyle(
+              color: Colors.grey,
+            ),
           ),
-        ),
-        renderStars()
-      ],
+          renderStars()
+        ],
+      ),
     );
   }
 
   renderCategoryDetail() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           widget.categoryDetail!,
@@ -123,22 +141,25 @@ class _MyReviewCardState extends State<MyReviewCard> {
     final ca = widget.createdAt!;
     final dateStr = '${ca.year}-${ca.month}-${ca.day}';
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          widget.content!,
-          style: TextStyle(
-            color: Colors.grey[200],
+    return Container(
+      width: 250,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            widget.content!,
+            style: TextStyle(
+              color: Colors.grey[200],
+            ),
           ),
-        ),
-        Text(
-          dateStr,
-          style: TextStyle(
-            color: Colors.grey,
-          ),
-        )
-      ],
+          Text(
+            dateStr,
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          )
+        ],
+      ),
     );
   }
 

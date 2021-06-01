@@ -7,10 +7,10 @@ class MyReview extends Table {
   IntColumn? get id => integer().autoIncrement()();
   RealColumn? get stars => real()();
   TextColumn? get category => text().withLength(min: 1, max: 20)();
-  TextColumn? get categoryDetail => text().withLength(min: 1, max: 30)();
+  TextColumn? get categoryDetail => text().withLength(max: 30)();
   TextColumn? get title => text().withLength(min: 1, max: 30)();
   TextColumn? get content => text()();
-  // BlobColumn? get image => blob()();
+  TextColumn? get imagepath => text()();
   DateTimeColumn? get createdAt =>
       dateTime().withDefault(Constant(DateTime.now()))();
 }

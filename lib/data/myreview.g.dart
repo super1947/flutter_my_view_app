@@ -8,6 +8,4 @@ part of 'myreview.dart';
 
 mixin _$MyReviewDaoMixin on DatabaseAccessor<Database> {
   $MyReviewTable get myReview => attachedDatabase.myReview;
-
-  
 }

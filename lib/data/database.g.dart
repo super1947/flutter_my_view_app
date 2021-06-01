@@ -14,6 +14,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
   final String categoryDetail;
   final String title;
   final String content;
+  final String imagepath;
   final DateTime createdAt;
   MyReviewData(
       {required this.id,
@@ -22,6 +23,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
       required this.categoryDetail,
       required this.title,
       required this.content,
+      required this.imagepath,
       required this.createdAt});
   factory MyReviewData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
@@ -39,6 +41,8 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       content: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}content'])!,
+      imagepath: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}imagepath'])!,
       createdAt: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
     );
@@ -52,6 +56,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
     map['category_detail'] = Variable<String>(categoryDetail);
     map['title'] = Variable<String>(title);
     map['content'] = Variable<String>(content);
+    map['imagepath'] = Variable<String>(imagepath);
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
@@ -64,6 +69,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
       categoryDetail: Value(categoryDetail),
       title: Value(title),
       content: Value(content),
+      imagepath: Value(imagepath),
       createdAt: Value(createdAt),
     );
   }
@@ -78,6 +84,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
       categoryDetail: serializer.fromJson<String>(json['categoryDetail']),
       title: serializer.fromJson<String>(json['title']),
       content: serializer.fromJson<String>(json['content']),
+      imagepath: serializer.fromJson<String>(json['imagepath']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -91,6 +98,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
       'categoryDetail': serializer.toJson<String>(categoryDetail),
       'title': serializer.toJson<String>(title),
       'content': serializer.toJson<String>(content),
+      'imagepath': serializer.toJson<String>(imagepath),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -102,6 +110,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
           String? categoryDetail,
           String? title,
           String? content,
+          String? imagepath,
           DateTime? createdAt}) =>
       MyReviewData(
         id: id ?? this.id,
@@ -110,6 +119,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
         categoryDetail: categoryDetail ?? this.categoryDetail,
         title: title ?? this.title,
         content: content ?? this.content,
+        imagepath: imagepath ?? this.imagepath,
         createdAt: createdAt ?? this.createdAt,
       );
   @override
@@ -121,6 +131,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
           ..write('categoryDetail: $categoryDetail, ')
           ..write('title: $title, ')
           ..write('content: $content, ')
+          ..write('imagepath: $imagepath, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -135,8 +146,10 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
               category.hashCode,
               $mrjc(
                   categoryDetail.hashCode,
-                  $mrjc(title.hashCode,
-                      $mrjc(content.hashCode, createdAt.hashCode)))))));
+                  $mrjc(
+                      title.hashCode,
+                      $mrjc(content.hashCode,
+                          $mrjc(imagepath.hashCode, createdAt.hashCode))))))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -147,6 +160,7 @@ class MyReviewData extends DataClass implements Insertable<MyReviewData> {
           other.categoryDetail == this.categoryDetail &&
           other.title == this.title &&
           other.content == this.content &&
+          other.imagepath == this.imagepath &&
           other.createdAt == this.createdAt);
 }
 
@@ -157,6 +171,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
   final Value<String> categoryDetail;
   final Value<String> title;
   final Value<String> content;
+  final Value<String> imagepath;
   final Value<DateTime> createdAt;
   const MyReviewCompanion({
     this.id = const Value.absent(),
@@ -165,6 +180,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
     this.categoryDetail = const Value.absent(),
     this.title = const Value.absent(),
     this.content = const Value.absent(),
+    this.imagepath = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   MyReviewCompanion.insert({
@@ -174,12 +190,14 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
     required String categoryDetail,
     required String title,
     required String content,
+    required String imagepath,
     this.createdAt = const Value.absent(),
   })  : stars = Value(stars),
         category = Value(category),
         categoryDetail = Value(categoryDetail),
         title = Value(title),
-        content = Value(content);
+        content = Value(content),
+        imagepath = Value(imagepath);
   static Insertable<MyReviewData> custom({
     Expression<int>? id,
     Expression<double>? stars,
@@ -187,6 +205,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
     Expression<String>? categoryDetail,
     Expression<String>? title,
     Expression<String>? content,
+    Expression<String>? imagepath,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -196,6 +215,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
       if (categoryDetail != null) 'category_detail': categoryDetail,
       if (title != null) 'title': title,
       if (content != null) 'content': content,
+      if (imagepath != null) 'imagepath': imagepath,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -207,6 +227,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
       Value<String>? categoryDetail,
       Value<String>? title,
       Value<String>? content,
+      Value<String>? imagepath,
       Value<DateTime>? createdAt}) {
     return MyReviewCompanion(
       id: id ?? this.id,
@@ -215,6 +236,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
       categoryDetail: categoryDetail ?? this.categoryDetail,
       title: title ?? this.title,
       content: content ?? this.content,
+      imagepath: imagepath ?? this.imagepath,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -240,6 +262,9 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
+    if (imagepath.present) {
+      map['imagepath'] = Variable<String>(imagepath.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -255,6 +280,7 @@ class MyReviewCompanion extends UpdateCompanion<MyReviewData> {
           ..write('categoryDetail: $categoryDetail, ')
           ..write('title: $title, ')
           ..write('content: $content, ')
+          ..write('imagepath: $imagepath, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -299,7 +325,7 @@ class $MyReviewTable extends MyReview
   late final GeneratedTextColumn categoryDetail = _constructCategoryDetail();
   GeneratedTextColumn _constructCategoryDetail() {
     return GeneratedTextColumn('category_detail', $tableName, false,
-        minTextLength: 1, maxTextLength: 30);
+        maxTextLength: 30);
   }
 
   final VerificationMeta _titleMeta = const VerificationMeta('title');
@@ -321,6 +347,17 @@ class $MyReviewTable extends MyReview
     );
   }
 
+  final VerificationMeta _imagepathMeta = const VerificationMeta('imagepath');
+  @override
+  late final GeneratedTextColumn imagepath = _constructImagepath();
+  GeneratedTextColumn _constructImagepath() {
+    return GeneratedTextColumn(
+      'imagepath',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedDateTimeColumn createdAt = _constructCreatedAt();
@@ -330,8 +367,16 @@ class $MyReviewTable extends MyReview
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, stars, category, categoryDetail, title, content, createdAt];
+  List<GeneratedColumn> get $columns => [
+        id,
+        stars,
+        category,
+        categoryDetail,
+        title,
+        content,
+        imagepath,
+        createdAt
+      ];
   @override
   $MyReviewTable get asDslTable => this;
   @override
@@ -377,6 +422,12 @@ class $MyReviewTable extends MyReview
           content.isAcceptableOrUnknown(data['content']!, _contentMeta));
     } else if (isInserting) {
       context.missing(_contentMeta);
+    }
+    if (data.containsKey('imagepath')) {
+      context.handle(_imagepathMeta,
+          imagepath.isAcceptableOrUnknown(data['imagepath']!, _imagepathMeta));
+    } else if (isInserting) {
+      context.missing(_imagepathMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,

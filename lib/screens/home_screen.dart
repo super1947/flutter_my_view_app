@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, index) {
                       final item = data[index];
                       return MyReviewCard(
-                        // image: item.image,
+                        imagepath: item.imagepath,
                         stars: item.stars,
                         category: item.category,
                         categoryDetail: item.categoryDetail,
@@ -160,13 +160,13 @@ Widget _buildCategoryCard(icon, color, title) {
             boxShadow: [
               BoxShadow(
                 color: lightColor.withOpacity(0.3),
-                offset: Offset(-5, -5),
+                offset: Offset(-3, -3),
                 spreadRadius: 0,
                 blurRadius: 9,
               ),
               BoxShadow(
                 color: bgColor.withOpacity(0.3),
-                offset: Offset(6, 6),
+                offset: Offset(4, 4),
                 spreadRadius: 0,
                 blurRadius: 6,
               )
@@ -189,156 +189,3 @@ Widget _buildCategoryCard(icon, color, title) {
     ],
   );
 }
-
-// Container(
-//                             width: 150,
-//                             margin: EdgeInsets.only(right: 20),
-//                             height: categoryHeight,
-//                             decoration: BoxDecoration(
-//                                 border: Border.all(
-//                                     color: Color(0xff3e3e3e), width: 3.0),
-//                                 borderRadius:
-//                                     BorderRadius.all(Radius.circular(20.0))),
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(15.0),
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     "가전/가구/인테리어",
-//                                     style: TextStyle(
-//                                         fontSize: 25,
-//                                         color: Colors.white,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                   SizedBox(
-//                                     height: 10,
-//                                   ),
-//                                   Text(
-//                                     '${groupByCategory['가전/가구/인테리어'] == null ? 0 : groupByCategory['가전/가구/인테리어']?.length} items',
-//                                     style: TextStyle(
-//                                         fontSize: 16, color: Colors.white),
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                           Container(
-//                             width: 150,
-//                             margin: EdgeInsets.only(right: 20),
-//                             height: categoryHeight,
-//                             decoration: BoxDecoration(
-//                                 gradient: LinearGradient(
-//                                   colors: [
-//                                     Color(0xfffbb040),
-//                                     Color(0xfff9ed32)
-//                                   ],
-//                                   begin: Alignment.centerLeft,
-//                                   end: Alignment.centerRight,
-//                                 ),
-//                                 borderRadius:
-//                                     BorderRadius.all(Radius.circular(20.0))),
-//                             child: Container(
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(15.0),
-//                                 child: Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: <Widget>[
-//                                     Text(
-//                                       "음식/영화/도서",
-//                                       style: TextStyle(
-//                                           fontSize: 25,
-//                                           color: Colors.white,
-//                                           fontWeight: FontWeight.bold),
-//                                     ),
-//                                     SizedBox(
-//                                       height: 10,
-//                                     ),
-//                                     Text(
-//                                       '${groupByCategory['음식/영화/도서'] == null ? 0 : groupByCategory['음식/영화/도서']?.length} items',
-//                                       style: TextStyle(
-//                                           fontSize: 16, color: Colors.white),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Container(
-//                             width: 150,
-//                             margin: EdgeInsets.only(right: 20),
-//                             height: categoryHeight,
-//                             decoration: BoxDecoration(
-//                                 gradient: LinearGradient(
-//                                   colors: [
-//                                     Color(0xff2d388a),
-//                                     Color(0xff00aeef)
-//                                   ],
-//                                   begin: Alignment.centerLeft,
-//                                   end: Alignment.centerRight,
-//                                 ),
-//                                 borderRadius:
-//                                     BorderRadius.all(Radius.circular(20.0))),
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(15.0),
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     "의류/잡화/스포츠",
-//                                     style: TextStyle(
-//                                         fontSize: 25,
-//                                         color: Colors.white,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                   SizedBox(
-//                                     height: 10,
-//                                   ),
-//                                   Text(
-//                                     '${groupByCategory['의류/잡화/스포츠'] == null ? 0 : groupByCategory['의류/잡화/스포츠']?.length} items',
-//                                     style: TextStyle(
-//                                         fontSize: 16, color: Colors.white),
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                           Container(
-//                             width: 150,
-//                             margin: EdgeInsets.only(right: 20),
-//                             height: categoryHeight,
-//                             decoration: BoxDecoration(
-//                                 gradient: LinearGradient(
-//                                   colors: [
-//                                     Color(0xff7f00ff),
-//                                     Color(0xffe100ff)
-//                                   ],
-//                                   begin: Alignment.centerLeft,
-//                                   end: Alignment.centerRight,
-//                                 ),
-//                                 borderRadius:
-//                                     BorderRadius.all(Radius.circular(20.0))),
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(15.0),
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     "기타",
-//                                     style: TextStyle(
-//                                         fontSize: 25,
-//                                         color: Colors.white,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                   SizedBox(
-//                                     height: 10,
-//                                   ),
-//                                   Text(
-//                                     '${groupByCategory['기타'] == null ? 0 : groupByCategory['기타']?.length} items',
-//                                     style: TextStyle(
-//                                         fontSize: 16, color: Colors.white),
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),

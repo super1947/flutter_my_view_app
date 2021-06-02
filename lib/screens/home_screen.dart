@@ -29,24 +29,26 @@ class _HomeScreenState extends State<HomeScreen> {
             stream: dao.streamMyReviews(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final data = snapshot.data!;
+                final myReviews = snapshot.data!;
+                print(myReviews);
                 return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     reverse: true,
                     itemBuilder: (_, index) {
-                      final item = data[index];
+                      final _myReview = myReviews[index];
                       return MyReviewCard(
-                        imagepath: item.imagepath,
-                        stars: item.stars,
-                        category: item.category,
-                        categoryDetail: item.categoryDetail,
-                        title: item.title,
-                        content: item.content,
-                        createdAt: item.createdAt,
+                        id: _myReview.id,
+                        imagepath: _myReview.imagepath,
+                        stars: _myReview.stars,
+                        category: _myReview.category,
+                        categoryDetail: _myReview.categoryDetail,
+                        title: _myReview.title,
+                        content: _myReview.content,
+                        createdAt: _myReview.createdAt,
                       );
                     },
-                    itemCount: data.length);
+                    itemCount: myReviews.length);
               } else {
                 return Container();
               }

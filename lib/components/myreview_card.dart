@@ -1,9 +1,16 @@
 import 'dart:io';
+import 'package:app/components/myreview_popup_card.dart';
+import 'package:app/controller/custom_rect_tween.dart';
+import 'package:app/controller/hero_dialog_route.dart';
+import 'package:app/data/database.dart';
+import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 
 class MyReviewCard extends StatefulWidget {
+  final int? id;
   final double? stars;
   final String? category;
   final String? categoryDetail;
@@ -13,6 +20,7 @@ class MyReviewCard extends StatefulWidget {
   final String? imagepath;
 
   MyReviewCard({
+    this.id,
     required this.stars,
     required this.category,
     this.categoryDetail,
@@ -29,49 +37,78 @@ class MyReviewCard extends StatefulWidget {
 class _MyReviewCardState extends State<MyReviewCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: Color(0xff1f1e21),
+    return GestureDetector(
+      onLongPress: () {
+        print('clicked');
+        print(widget.id);
+        Navigator.of(context).push(HeroDialogRoute(
+            builder: (context) => Center(
+                  child: MyReviewPopUpCard(
+                    id: widget.id,
+                    category: widget.category,
+                    stars: widget.stars,
+                    categoryDetail: widget.categoryDetail,
+                    title: widget.title,
+                    content: widget.content,
+                    createdAt: widget.createdAt,
+                    imagepath: widget.imagepath,
+                  ),
+                )));
+      },
+      child: Hero(
+        createRectTween: (begin, end) {
+          return CustomRectTween(begin: begin!, end: end!);
+        },
+        tag: widget.id!,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          child: Material(
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: lightColor.withOpacity(0.3),
-                offset: Offset(4, 4),
-                spreadRadius: 0,
-                blurRadius: 9,
-              ),
-              BoxShadow(
-                color: bgColor.withOpacity(0.3),
-                offset: Offset(-3, -3),
-                spreadRadius: 0,
-                blurRadius: 6,
-              )
-            ]),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Container(
-            height: 80,
-            width: 70,
-            child: renderImageBox(),
-          ),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                renderCategory(),
-                renderCategoryDetail(),
-                renderTitle(),
-                SizedBox(
-                  height: 5,
-                ),
-                renderContent(),
-              ],
+            child: Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: Color(0xff1f1e21),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: lightColor.withOpacity(0.3),
+                      offset: Offset(4, 4),
+                      spreadRadius: 0,
+                      blurRadius: 9,
+                    ),
+                    BoxShadow(
+                      color: bgColor.withOpacity(0.3),
+                      offset: Offset(-3, -3),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                    )
+                  ]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 80,
+                      width: 70,
+                      child: renderImageBox(),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          renderCategory(),
+                          renderCategoryDetail(),
+                          renderTitle(),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          renderContent(),
+                        ],
+                      ),
+                    ),
+                  ]),
             ),
           ),
-        ]),
+        ),
       ),
     );
   }
@@ -146,10 +183,14 @@ class _MyReviewCardState extends State<MyReviewCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.content!,
-            style: TextStyle(
-              color: Colors.grey[200],
+          Expanded(
+            child: Text(
+              widget.content!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.grey[200],
+              ),
             ),
           ),
           Text(
@@ -168,6 +209,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
       children: [
         Text(
           widget.title!,
+          maxLines: 1,
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,

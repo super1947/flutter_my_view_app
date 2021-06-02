@@ -249,8 +249,7 @@ class _WriteScreenState extends State<WriteScreen> {
                   await dao.insertMyReview(
                     myReviewCompanion,
                   );
-                  print(categoryDetail);
-                  print(imagepath);
+                  print(myReviewCompanion);
                   AppController.to.currentIndex.value = 0;
                 }
               }

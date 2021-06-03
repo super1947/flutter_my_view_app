@@ -7,19 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 // import "package:collection/collection.dart";
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
   final dao = GetIt.instance<MyReviewDao>();
-  // final List<String> categoryItems = <String>[
-  //     '가전/가구/인테리어',
-  //     '음식/영화/도서',
-  //     '의류/잡화/스포츠',
-  //     '기타'
-  //   ];
 
   renderReviewCard() {
     return SliverList(
@@ -136,13 +125,31 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: CustomScrollView(slivers: [
-        renderSliverAppbar(),
-        renderSliverTextBox('카테고리'),
-        renderSliverCategoryCard(),
-        renderSliverTextBox('목록'),
-        renderReviewCard(),
+      backgroundColor: AppColors.backgroundFadedColor,
+      body: Stack(children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppColors.backgroundFadedColor,
+                AppColors.backgroundColor,
+              ],
+              stops: [0.0, 1],
+            ),
+          ),
+        ),
+        SafeArea(
+            child: CustomScrollView(
+          slivers: [
+            renderSliverAppbar(),
+            renderSliverTextBox('카테고리'),
+            renderSliverCategoryCard(),
+            renderSliverTextBox('목록'),
+            renderReviewCard(),
+          ],
+        )),
       ]),
     );
   }
@@ -157,18 +164,18 @@ Widget _buildCategoryCard(icon, color, title) {
         width: 100.0,
         margin: EdgeInsets.only(bottom: 10.0),
         decoration: BoxDecoration(
-            color: Color(0xff1f1e21),
+            color: AppColors.cardColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: lightColor.withOpacity(0.3),
-                offset: Offset(-3, -3),
+                color: Colors.grey[400]!.withOpacity(0.2),
+                offset: Offset(-2, -2),
                 spreadRadius: 0,
                 blurRadius: 9,
               ),
               BoxShadow(
-                color: bgColor.withOpacity(0.3),
-                offset: Offset(4, 4),
+                color: bgColor.withOpacity(0.2),
+                offset: Offset(2, 2),
                 spreadRadius: 0,
                 blurRadius: 6,
               )

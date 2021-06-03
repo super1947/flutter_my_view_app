@@ -67,18 +67,18 @@ class _MyReviewCardState extends State<MyReviewCard> {
             child: Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                  color: Color(0xff1f1e21),
+                  color: AppColors.cardColor,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: lightColor.withOpacity(0.3),
-                      offset: Offset(4, 4),
+                      color: Colors.grey[400]!.withOpacity(0.2),
+                      offset: Offset(2, 2),
                       spreadRadius: 0,
                       blurRadius: 9,
                     ),
                     BoxShadow(
-                      color: bgColor.withOpacity(0.3),
-                      offset: Offset(-3, -3),
+                      color: bgColor.withOpacity(0.2),
+                      offset: Offset(-2, -2),
                       spreadRadius: 0,
                       blurRadius: 6,
                     )

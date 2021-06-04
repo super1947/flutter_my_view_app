@@ -10,7 +10,7 @@ import 'package:get_it/get_it.dart';
 class HomeScreen extends StatelessWidget {
   final dao = GetIt.instance<MyReviewDao>();
 
-  renderReviewCard() {
+  renderHomeReviewCard() {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => Container(
@@ -83,8 +83,6 @@ class HomeScreen extends StatelessWidget {
             stream: dao.streamMyReviews(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                // final data = snapshot.data!;
-                // final groupByCategory = data.groupListsBy((e) => e.category);
                 return SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -147,7 +145,7 @@ class HomeScreen extends StatelessWidget {
             renderSliverTextBox('카테고리'),
             renderSliverCategoryCard(),
             renderSliverTextBox('목록'),
-            renderReviewCard(),
+            renderHomeReviewCard(),
           ],
         )),
       ]),
@@ -171,13 +169,13 @@ Widget _buildCategoryCard(icon, color, title) {
                 color: Colors.grey[400]!.withOpacity(0.2),
                 offset: Offset(-2, -2),
                 spreadRadius: 0,
-                blurRadius: 9,
+                blurRadius: 3,
               ),
               BoxShadow(
                 color: bgColor.withOpacity(0.2),
                 offset: Offset(2, 2),
                 spreadRadius: 0,
-                blurRadius: 6,
+                blurRadius: 2,
               )
             ]),
         child: Container(

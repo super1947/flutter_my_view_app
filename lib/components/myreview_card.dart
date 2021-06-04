@@ -65,7 +65,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
           child: Material(
             borderRadius: BorderRadius.circular(20),
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               decoration: BoxDecoration(
                   color: AppColors.cardColor,
                   borderRadius: BorderRadius.circular(20),
@@ -74,35 +74,42 @@ class _MyReviewCardState extends State<MyReviewCard> {
                       color: Colors.grey[400]!.withOpacity(0.2),
                       offset: Offset(2, 2),
                       spreadRadius: 0,
-                      blurRadius: 9,
+                      blurRadius: 3,
                     ),
                     BoxShadow(
                       color: bgColor.withOpacity(0.2),
                       offset: Offset(-2, -2),
                       spreadRadius: 0,
-                      blurRadius: 6,
+                      blurRadius: 3,
                     )
                   ]),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 80,
-                      width: 70,
-                      child: renderImageBox(),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        height: 70,
+                        width: 80,
+                        child: renderImageBox(),
+                      ),
                     ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          renderCategory(),
-                          renderCategoryDetail(),
-                          renderTitle(),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          renderContent(),
-                        ],
+                    Flexible(
+                      flex: 3,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            renderCategory(),
+                            renderCategoryDetail(),
+                            renderTitle(),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            renderContent(),
+                          ],
+                        ),
                       ),
                     ),
                   ]),
@@ -137,7 +144,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
           color: Colors.amber,
         ),
         itemCount: 5,
-        itemSize: 20.0,
+        itemSize: 15.0,
         direction: Axis.horizontal,
       ),
     );
@@ -145,7 +152,6 @@ class _MyReviewCardState extends State<MyReviewCard> {
 
   renderCategory() {
     return Container(
-      width: 250,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -179,7 +185,6 @@ class _MyReviewCardState extends State<MyReviewCard> {
     final dateStr = '${ca.year}-${ca.month}-${ca.day}';
 
     return Container(
-      width: 250,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

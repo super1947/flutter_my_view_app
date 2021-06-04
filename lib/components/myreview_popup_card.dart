@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:app/controller/custom_rect_tween.dart';
+import 'package:app/data/myreview.dart';
 import 'package:flutter/material.dart';
 import 'package:app/style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:line_icons/line_icons.dart';
 
 class MyReviewPopUpCard extends StatefulWidget {
@@ -125,7 +127,11 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
           ),
           IconButton(
             iconSize: 20.0,
-            onPressed: () {},
+            onPressed: () {
+              final dao = GetIt.instance<MyReviewDao>();
+              dao.deleteMyReviewById(widget.id!);
+              Navigator.of(context).pop();
+            },
             icon: Icon(LineIcons.alternateTrashAlt),
           ),
           IconButton(

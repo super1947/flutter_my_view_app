@@ -24,5 +24,12 @@ class MyReviewDao extends DatabaseAccessor<Database> with _$MyReviewDaoMixin {
   Stream<MyReviewData> streamMyReview(int id) =>
       (select(myReview)..where((tbl) => tbl.id.equals(id))).watchSingle();
 
+  Stream<List<MyReviewData>> streamMyReviewsByCategory(String text) =>
+      (select(myReview)..where((tbl) => tbl.category.equals(text))).watch();
+
   Future insertMyReview(MyReviewCompanion data) => into(myReview).insert(data);
+  Future updateMyReview(MyReviewCompanion data) =>
+      update(myReview).replace(data);
+  Future deleteMyReviewById(int id) =>
+      (delete(myReview)..where((tbl) => tbl.id.equals(id))).go();
 }

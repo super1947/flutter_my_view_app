@@ -50,10 +50,8 @@ class _WriteScreenState extends State<WriteScreen> {
     setState(() {
       if (pickedFile != null) {
         this.imagepath = File(pickedFile.path).path;
-        print(imagepath);
       } else {
         this.imagepath = '';
-        print(imagepath);
       }
     });
   }
@@ -66,22 +64,22 @@ class _WriteScreenState extends State<WriteScreen> {
       child: Container(
           height: 100.0,
           width: 100.0,
-          margin: EdgeInsets.only(bottom: 10.0),
+          margin: EdgeInsets.symmetric(vertical: 10.0),
           decoration: BoxDecoration(
-              color: Color(0xff1f1e21),
+              color: Color(0xff1a1a1a),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  offset: Offset(3, 3),
+                  color: Colors.grey.withOpacity(0.25),
+                  offset: Offset(3, 2),
                   spreadRadius: 0,
-                  blurRadius: 9,
+                  blurRadius: 5,
                 ),
                 BoxShadow(
-                  color: bgColor.withOpacity(0.3),
-                  offset: Offset(-6, -6),
+                  color: bgColor.withOpacity(0.2),
+                  offset: Offset(-3, -3),
                   spreadRadius: 0,
-                  blurRadius: 6,
+                  blurRadius: 5,
                 )
               ]),
           child: Column(
@@ -249,7 +247,6 @@ class _WriteScreenState extends State<WriteScreen> {
                   await dao.insertMyReview(
                     myReviewCompanion,
                   );
-                  print(myReviewCompanion);
                   AppController.to.currentIndex.value = 0;
                 }
               }
@@ -284,16 +281,30 @@ class _WriteScreenState extends State<WriteScreen> {
               key: formKey,
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      renderImagePickerBox(
-                          LineIcons.camera, '사진 찍기', ImageSource.camera),
-                      SizedBox(width: 30.0),
-                      renderImagePickerBox(
-                          LineIcons.image, '이미지 선택', ImageSource.gallery),
-                    ],
-                  ),
+                  this.imagepath == ''
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            renderImagePickerBox(
+                                LineIcons.camera, '사진 찍기', ImageSource.camera),
+                            SizedBox(width: 30.0),
+                            renderImagePickerBox(
+                                LineIcons.image, '이미지 선택', ImageSource.gallery),
+                          ],
+                        )
+                      : Container(
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          child: Container(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(this.imagepath!),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
                   renderTextFields(),
                   SizedBox(
                     height: 10,

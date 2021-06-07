@@ -8,6 +8,7 @@ import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 
 class MyReviewCard extends StatefulWidget {
   final int? id;
@@ -38,9 +39,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onLongPress: () {
-        print('clicked');
-        print(widget.id);
+      onTap: () {
         Navigator.of(context).push(HeroDialogRoute(
             builder: (context) => Center(
                   child: MyReviewPopUpCard(
@@ -61,17 +60,17 @@ class _MyReviewCardState extends State<MyReviewCard> {
         },
         tag: widget.id!,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           child: Material(
             borderRadius: BorderRadius.circular(20),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 13.0),
               decoration: BoxDecoration(
-                  color: AppColors.cardColor,
+                  color: Color(0xff1A1A1A),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400]!.withOpacity(0.2),
+                      color: Colors.grey[500]!.withOpacity(0.18),
                       offset: Offset(2, 2),
                       spreadRadius: 0,
                       blurRadius: 3,
@@ -121,18 +120,20 @@ class _MyReviewCardState extends State<MyReviewCard> {
   }
 
   renderImageBox() {
-    if (widget.imagepath != '')
-      return Container(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.file(
-            File(widget.imagepath!),
-            fit: BoxFit.fill,
-          ),
-        ),
-      );
-    else
-      return Container();
+    return Container(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: widget.imagepath != ''
+            ? Image.file(
+                File(widget.imagepath!),
+                fit: BoxFit.fill,
+              )
+            : Image.asset(
+                'assets/images/default-image.jpg',
+                fit: BoxFit.fill,
+              ),
+      ),
+    );
   }
 
   renderStars() {
@@ -172,9 +173,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
       children: [
         Text(
           widget.categoryDetail!,
-          style: TextStyle(
-            color: Colors.grey,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 11.0),
         ),
       ],
     );
@@ -185,26 +184,13 @@ class _MyReviewCardState extends State<MyReviewCard> {
     final dateStr = '${ca.year}-${ca.month}-${ca.day}';
 
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              widget.content!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Colors.grey[200],
-              ),
-            ),
-          ),
-          Text(
-            dateStr,
-            style: TextStyle(
-              color: Colors.grey,
-            ),
-          )
-        ],
+      child: Text(
+        widget.content!,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: Colors.grey[200],
+        ),
       ),
     );
   }
@@ -215,6 +201,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
         Text(
           widget.title!,
           maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,

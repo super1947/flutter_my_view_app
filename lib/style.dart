@@ -11,8 +11,8 @@ const titleStyle = TextStyle(
   color: Colors.white,
 );
 const subtitleStyle = TextStyle(
-  fontSize: 13,
-  fontWeight: FontWeight.w300,
+  fontSize: 10,
+  fontWeight: FontWeight.w600,
   color: lightColor,
 );
 

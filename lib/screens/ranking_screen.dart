@@ -21,7 +21,6 @@ class _RankingScreenState extends State<RankingScreen> {
   int isSelected = 0;
 
   renderRankingReviewCard(String category) {
-    print(isSelected);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => Container(
@@ -178,8 +177,6 @@ class _RankingScreenState extends State<RankingScreen> {
         onTap: () {
           setState(() {
             controller.changeCategoryViewIndex(index);
-            print(controller.currentIndex);
-            print(categoryStateController());
           });
         },
         child: Container(
@@ -196,10 +193,9 @@ class _RankingScreenState extends State<RankingScreen> {
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: size,
-                  fontWeight: FontWeight.w600,
-                ),
+                    color: Colors.white,
+                    fontSize: size,
+                    fontWeight: FontWeight.w800),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -231,9 +227,10 @@ class _RankingScreenState extends State<RankingScreen> {
             children: [
               ToggleSwitch(
                 initialLabelIndex: isSelected,
-                minWidth: 100.0,
+                minWidth: 80.0,
+                minHeight: 30.0,
                 activeBgColor: Color(0xffd9d9d9),
-                inactiveBgColor: AppColors.cardColor,
+                inactiveBgColor: Color(0xff1a1a1a),
                 labels: ['최신순', '별점순'],
                 onToggle: (index) {
                   setState(() {
@@ -282,8 +279,8 @@ class _RankingScreenState extends State<RankingScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.backgroundFadedColor,
-                  AppColors.backgroundColor,
+                  Color(0xff050505),
+                  Color(0xff080808),
                 ],
                 stops: [0.0, 1],
               ),

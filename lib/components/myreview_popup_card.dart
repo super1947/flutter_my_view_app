@@ -50,7 +50,7 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
           // color: Color(0xff1f1e21),
           child: Container(
             decoration: BoxDecoration(
-                color: Color(0xff1f1e21),
+                color: Color(0xff1A1A1A),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(

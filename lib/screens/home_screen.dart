@@ -1,14 +1,18 @@
 import 'package:app/components/myreview_card.dart';
+import 'package:app/controller/app_controller.dart';
+import 'package:app/controller/categoryview_controller.dart';
 import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 // import "package:collection/collection.dart";
 
 class HomeScreen extends StatelessWidget {
   final dao = GetIt.instance<MyReviewDao>();
+  final controller = Get.put(CategoryViewController());
 
   renderHomeReviewCard() {
     return SliverList(
@@ -19,7 +23,6 @@ class HomeScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final myReviews = snapshot.data!;
-                print(myReviews);
                 return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -51,7 +54,7 @@ class HomeScreen extends StatelessWidget {
 
   renderSliverAppbar() {
     return SliverAppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff050505),
       floating: true,
       title: Text('마이뷰'),
     );
@@ -88,24 +91,27 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 20),
+                        vertical: 10, horizontal: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _buildCategoryCard(FontAwesomeIcons.couch,
+                        _buildCategoryCard(1, FontAwesomeIcons.couch,
                             Color(0xff0092cc), '가전/가구/\n\   인테리어'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(FontAwesomeIcons.guitar,
+                        _buildCategoryCard(2, FontAwesomeIcons.tshirt,
+                            Color(0xff272AB0), '의류/잡화'),
+                        SizedBox(width: 20),
+                        _buildCategoryCard(3, FontAwesomeIcons.guitar,
                             Color(0xff05F4B7), '음악/음반/\n   아티스트'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(FontAwesomeIcons.video,
+                        _buildCategoryCard(4, FontAwesomeIcons.video,
                             Color(0xff5626C4), '영화/드라마/\n 예능/콘텐츠'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(FontAwesomeIcons.hamburger,
+                        _buildCategoryCard(5, FontAwesomeIcons.hamburger,
                             Color(0xffFB8122), '음식/음식점/\n   프랜차이즈'),
                         SizedBox(width: 20),
-                        _buildCategoryCard(FontAwesomeIcons.solidCommentDots,
+                        _buildCategoryCard(6, FontAwesomeIcons.solidCommentDots,
                             Color(0xffFA255E), '기타'),
                       ],
                     ),
@@ -123,7 +129,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundFadedColor,
       body: Stack(children: [
         Container(
           decoration: const BoxDecoration(
@@ -131,8 +136,8 @@ class HomeScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AppColors.backgroundFadedColor,
-                AppColors.backgroundColor,
+                Color(0xff050505),
+                Color(0xff080808),
               ],
               stops: [0.0, 1],
             ),
@@ -153,41 +158,47 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-Widget _buildCategoryCard(icon, color, title) {
+Widget _buildCategoryCard(int index, IconData icon, Color color, String title) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      Container(
-        height: 100.0,
-        width: 100.0,
-        margin: EdgeInsets.only(bottom: 10.0),
-        decoration: BoxDecoration(
-            color: AppColors.cardColor,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[400]!.withOpacity(0.2),
-                offset: Offset(-2, -2),
-                spreadRadius: 0,
-                blurRadius: 3,
-              ),
-              BoxShadow(
-                color: bgColor.withOpacity(0.2),
-                offset: Offset(2, 2),
-                spreadRadius: 0,
-                blurRadius: 2,
-              )
-            ]),
+    children: [
+      GestureDetector(
+        onTap: () {
+          AppController.to.currentIndex.value = 1;
+          CategoryViewController.to.currentIndex.value = index;
+        },
         child: Container(
-          child: Icon(
-            icon,
-            size: 37,
-            color: color,
+          height: 75.0,
+          width: 75.0,
+          margin: EdgeInsets.only(bottom: 10.0),
+          decoration: BoxDecoration(
+              color: Color(0xff1A1A1A),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[400]!.withOpacity(0.2),
+                  offset: Offset(-2, -2),
+                  spreadRadius: 0,
+                  blurRadius: 3,
+                ),
+                BoxShadow(
+                  color: bgColor.withOpacity(0.2),
+                  offset: Offset(2, 2),
+                  spreadRadius: 0,
+                  blurRadius: 2,
+                )
+              ]),
+          child: Container(
+            child: Icon(
+              icon,
+              size: 25,
+              color: color,
+            ),
           ),
         ),
       ),
       Container(
-        height: 50,
+        height: 35,
         child: Text(
           title,
           style: subtitleStyle,

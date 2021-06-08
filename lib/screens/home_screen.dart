@@ -1,16 +1,24 @@
+import 'dart:async';
+
 import 'package:app/components/myreview_card.dart';
 import 'package:app/controller/app_controller.dart';
 import 'package:app/controller/categoryview_controller.dart';
 import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';
+import 'package:app/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 // import "package:collection/collection.dart";
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final dao = GetIt.instance<MyReviewDao>();
   final controller = Get.put(CategoryViewController());
 
@@ -28,16 +36,16 @@ class HomeScreen extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     reverse: true,
                     itemBuilder: (_, index) {
-                      final _myReview = myReviews[index];
+                      final myReview = myReviews[index];
                       return MyReviewCard(
-                        id: _myReview.id,
-                        imagepath: _myReview.imagepath,
-                        stars: _myReview.stars,
-                        category: _myReview.category,
-                        categoryDetail: _myReview.categoryDetail,
-                        title: _myReview.title,
-                        content: _myReview.content,
-                        createdAt: _myReview.createdAt,
+                        id: myReview.id,
+                        imagepath: myReview.imagepath,
+                        stars: myReview.stars,
+                        category: myReview.category,
+                        categoryDetail: myReview.categoryDetail,
+                        title: myReview.title,
+                        content: myReview.content,
+                        createdAt: myReview.createdAt,
                       );
                     },
                     itemCount: myReviews.length);
@@ -57,14 +65,20 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Color(0xff050505),
       floating: true,
       title: Text('마이뷰'),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.search),
+        ),
+      ],
     );
   }
 
-  renderSliverTextBox(String text) {
+  renderSliverTextBox(String text, double toppadding) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => Container(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.fromLTRB(25, toppadding, 0, 0),
           child: Text(
             text,
             style: TextStyle(
@@ -146,10 +160,10 @@ class HomeScreen extends StatelessWidget {
         SafeArea(
             child: CustomScrollView(
           slivers: [
-            renderSliverAppbar(),
-            renderSliverTextBox('카테고리'),
+            // renderSliverAppbar(),
+            renderSliverTextBox('카테고리', 20),
             renderSliverCategoryCard(),
-            renderSliverTextBox('목록'),
+            renderSliverTextBox('목록', 0),
             renderHomeReviewCard(),
           ],
         )),

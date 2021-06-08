@@ -4,6 +4,7 @@ import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/style.dart';
+import 'package:app/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +20,49 @@ class _RankingScreenState extends State<RankingScreen> {
   final controller = Get.put(CategoryViewController());
   final dao = GetIt.instance<MyReviewDao>();
   int isSelected = 0;
+  late List<MyReviewData> myReviewsfiltered;
+  String query = '';
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future init() async {
+    final allMyReviews = await dao.getAllData();
+    setState(() {
+      this.myReviewsfiltered = allMyReviews;
+    });
+  }
+
+  void searchReview(String query) async {
+    final allMyReviews = await dao.getAllData();
+    final myReviewsfiltered = allMyReviews.where((myReview) {
+      final titleLower = myReview.title.toLowerCase();
+      final categoryLower = myReview.category.toLowerCase();
+      final categoryDetailLower = myReview.categoryDetail.toLowerCase();
+      final contentLower = myReview.content.toLowerCase();
+      final searchLower = query.toLowerCase();
+
+      return titleLower.contains(searchLower) ||
+          categoryLower.contains(searchLower) ||
+          categoryDetailLower.contains(searchLower) ||
+          contentLower.contains(searchLower);
+    }).toList();
+
+    setState(() {
+      this.query = query;
+      this.myReviewsfiltered = myReviewsfiltered;
+      print(query);
+      print(myReviewsfiltered);
+    });
+  }
+
+  renderSearchArea() {
+    return SearchWidget(
+        text: query, onChanged: searchReview, hintText: '검색어를 입력하세요.');
+  }
 
   renderRankingReviewCard(String category) {
     return SliverList(
@@ -40,7 +84,7 @@ class _RankingScreenState extends State<RankingScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     reverse: true,
                     itemBuilder: (_, index) {
-                      final _myReview = myReviews[index];
+                      final _myReview = myReviewsfiltered[index];
                       return MyReviewCard(
                         id: _myReview.id,
                         imagepath: _myReview.imagepath,
@@ -52,7 +96,7 @@ class _RankingScreenState extends State<RankingScreen> {
                         createdAt: _myReview.createdAt,
                       );
                     },
-                    itemCount: myReviews.length);
+                    itemCount: myReviewsfiltered.length);
               } else {
                 return Container();
               }
@@ -268,7 +312,7 @@ class _RankingScreenState extends State<RankingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    HomeScreen homeScreen = HomeScreen();
+    // HomeScreen homeScreen = HomeScreen();
     return Scaffold(
       backgroundColor: AppColors.backgroundFadedColor,
       body: Stack(
@@ -290,7 +334,7 @@ class _RankingScreenState extends State<RankingScreen> {
             child: CustomScrollView(
               physics: ClampingScrollPhysics(),
               slivers: [
-                homeScreen.renderSliverAppbar(),
+                renderSearchArea(),
                 renderCategoryGrid(),
                 renderToggleButton(),
                 renderRankingReviewCard(categoryStateController()!),

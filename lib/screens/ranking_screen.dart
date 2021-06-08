@@ -20,25 +20,28 @@ class _RankingScreenState extends State<RankingScreen> {
   final controller = Get.put(CategoryViewController());
   final dao = GetIt.instance<MyReviewDao>();
   int isSelected = 0;
-  late List<MyReviewData> myReviewsfiltered;
+  late List<MyReviewData> myReviews;
   String query = '';
+  String category = '';
 
   @override
   void initState() {
     super.initState();
     init();
+    // category = '기타';
   }
 
   Future init() async {
     final allMyReviews = await dao.getAllData();
     setState(() {
-      this.myReviewsfiltered = allMyReviews;
+      this.myReviews = allMyReviews;
     });
   }
 
-  void searchReview(String query) async {
+  searchReview(String query) async {
+    print(controller.currentIndex.value);
     final allMyReviews = await dao.getAllData();
-    final myReviewsfiltered = allMyReviews.where((myReview) {
+    final myReviews = allMyReviews.where((myReview) {
       final titleLower = myReview.title.toLowerCase();
       final categoryLower = myReview.category.toLowerCase();
       final categoryDetailLower = myReview.categoryDetail.toLowerCase();
@@ -53,9 +56,9 @@ class _RankingScreenState extends State<RankingScreen> {
 
     setState(() {
       this.query = query;
-      this.myReviewsfiltered = myReviewsfiltered;
-      print(query);
-      print(myReviewsfiltered);
+      this.myReviews = myReviews;
+      // print(query);
+      // print(myReviewsfiltered);
     });
   }
 
@@ -74,17 +77,16 @@ class _RankingScreenState extends State<RankingScreen> {
                 : dao.streamMyReviewsByCategory(category),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var myReviews = snapshot.data!;
+                List<MyReviewData> myReviews = snapshot.data!;
                 isSelected == 0
                     ? myReviews = snapshot.data!
                     : myReviews.sort((a, b) => a.stars.compareTo(b.stars));
-
                 return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     reverse: true,
                     itemBuilder: (_, index) {
-                      final _myReview = myReviewsfiltered[index];
+                      final _myReview = myReviews[index];
                       return MyReviewCard(
                         id: _myReview.id,
                         imagepath: _myReview.imagepath,
@@ -96,7 +98,7 @@ class _RankingScreenState extends State<RankingScreen> {
                         createdAt: _myReview.createdAt,
                       );
                     },
-                    itemCount: myReviewsfiltered.length);
+                    itemCount: myReviews.length);
               } else {
                 return Container();
               }

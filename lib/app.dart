@@ -9,37 +9,38 @@ class App extends GetView<AppController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Obx(() {
-          switch (RouteName.values[controller.currentIndex.value]) {
-            case RouteName.HomeScreen:
-              return HomeScreen();
-            case RouteName.RankingScreen:
-              return RankingScreen();
-            case RouteName.WriteSceen:
-              return WriteScreen();
-          }
-        }),
-        bottomNavigationBar: Obx(
-          () => BottomNavigationBar(
-            onTap: controller.changePageIndex,
-            currentIndex: controller.currentIndex.value,
-            selectedItemColor: Colors.white,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            backgroundColor: Colors.black,
-            unselectedItemColor: Colors.white,
-            items: [
-              _bottomNavigationBarItem(
-                  icon: Icons.home_outlined, actIcon: Icons.home, label: '홈'),
-              _bottomNavigationBarItem(
-                  icon: Icons.star_border, actIcon: Icons.star, label: '랭킹'),
-              _bottomNavigationBarItem(
-                  icon: Icons.add_box_outlined,
-                  actIcon: Icons.add_box,
-                  label: '글쓰기')
-            ],
-          ),
-        ));
+      body: Obx(() {
+        switch (RouteName.values[controller.currentIndex.value]) {
+          case RouteName.HomeScreen:
+            return HomeScreen();
+          case RouteName.RankingScreen:
+            return RankingScreen();
+          case RouteName.WriteSceen:
+            return WriteScreen();
+        }
+      }),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          onTap: controller.changePageIndex,
+          currentIndex: controller.currentIndex.value,
+          selectedItemColor: Colors.white,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          backgroundColor: Colors.black,
+          unselectedItemColor: Colors.white,
+          items: [
+            _bottomNavigationBarItem(
+                icon: Icons.home_outlined, actIcon: Icons.home, label: '홈'),
+            _bottomNavigationBarItem(
+                icon: Icons.star_border, actIcon: Icons.star, label: '랭킹'),
+            _bottomNavigationBarItem(
+                icon: Icons.add_box_outlined,
+                actIcon: Icons.add_box,
+                label: '글쓰기')
+          ],
+        ),
+      ),
+    );
   }
 }
 

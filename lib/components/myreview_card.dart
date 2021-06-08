@@ -40,19 +40,22 @@ class _MyReviewCardState extends State<MyReviewCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(HeroDialogRoute(
+        Navigator.of(context).push(
+          HeroDialogRoute(
             builder: (context) => Center(
-                  child: MyReviewPopUpCard(
-                    id: widget.id,
-                    category: widget.category,
-                    stars: widget.stars,
-                    categoryDetail: widget.categoryDetail,
-                    title: widget.title,
-                    content: widget.content,
-                    createdAt: widget.createdAt,
-                    imagepath: widget.imagepath,
-                  ),
-                )));
+              child: MyReviewPopUpCard(
+                id: widget.id,
+                category: widget.category,
+                stars: widget.stars,
+                categoryDetail: widget.categoryDetail,
+                title: widget.title,
+                content: widget.content,
+                createdAt: widget.createdAt,
+                imagepath: widget.imagepath,
+              ),
+            ),
+          ),
+        );
       },
       child: Hero(
         createRectTween: (begin, end) {

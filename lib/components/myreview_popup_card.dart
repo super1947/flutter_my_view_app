@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:app/controller/app_controller.dart';
 import 'package:app/controller/custom_rect_tween.dart';
+import 'package:app/controller/hero_dialog_route.dart';
+import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
+import 'package:app/screens/update_screen.dart';
+import 'package:app/screens/write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app/style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -136,8 +141,18 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
           ),
           IconButton(
             iconSize: 20.0,
-            onPressed: () {},
-            icon: Icon(LineIcons.check),
+            onPressed: () {
+              final page = UpdateScreen(
+                  id: widget.id,
+                  stars: widget.stars,
+                  category: widget.category,
+                  title: widget.title,
+                  content: widget.content,
+                  categoryDetail: widget.categoryDetail,
+                  imagepath: widget.imagepath);
+              Get.to(() => page);
+            },
+            icon: Icon(LineIcons.edit),
           ),
         ],
       ),

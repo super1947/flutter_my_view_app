@@ -11,7 +11,9 @@ part 'database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'myreview.sqlite'));
+    final file = File(
+      p.join(dbFolder.path, 'myreview.sqlite'),
+    );
     return VmDatabase(file);
   });
 }

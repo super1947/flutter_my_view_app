@@ -22,21 +22,7 @@ class _RankingScreenState extends State<RankingScreen> {
   String query = '';
   String category = '';
 
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
-
-  Future init() async {
-    final allMyReviews = await dao.getAllData();
-    setState(() {
-      this.myReviewsFiltered = allMyReviews;
-    });
-  }
-
   searchReview(String query) async {
-    print(controller.currentIndex.value);
     final allMyReviews = await dao.getAllData();
     final myReviewsFiltered = allMyReviews.where((myReview) {
       final titleLower = myReview.title.toLowerCase();
@@ -321,34 +307,39 @@ class _RankingScreenState extends State<RankingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xff050505),
-                  Color(0xff080808),
-                ],
-                stops: [0.0, 1],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xff050505),
+                    Color(0xff080808),
+                  ],
+                  stops: [0.0, 1],
+                ),
               ),
             ),
-          ),
-          SafeArea(
-            child: CustomScrollView(
-              physics: ClampingScrollPhysics(),
-              slivers: [
-                renderSearchArea(),
-                renderCategoryGrid(),
-                renderToggleButton(),
-                renderRankingReviewCard(categoryStateController()!),
-              ],
+            SafeArea(
+              child: CustomScrollView(
+                physics: ClampingScrollPhysics(),
+                slivers: [
+                  renderSearchArea(),
+                  renderCategoryGrid(),
+                  renderToggleButton(),
+                  renderRankingReviewCard(categoryStateController()!),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

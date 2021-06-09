@@ -81,25 +81,21 @@ class _SliverFixedHeader extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
     return SizedBox(
       child: child,
     );
   }
 
   @override
-  // TODO: implement maxExtent
   double get maxExtent => this.maxHeight;
 
   @override
-  // TODO: implement minExtent
   double get minExtent => this.minHeight;
 
   @override
   bool shouldRebuild(
     _SliverFixedHeader oldDelegate,
   ) {
-    // TODO: implement shouldRebuild
     return oldDelegate.maxHeight != this.maxHeight ||
         oldDelegate.minHeight != this.minHeight ||
         oldDelegate.child != this.child;

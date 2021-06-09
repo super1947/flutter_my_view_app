@@ -1,12 +1,7 @@
 import 'dart:io';
-
-import 'package:app/controller/app_controller.dart';
 import 'package:app/controller/custom_rect_tween.dart';
-import 'package:app/controller/hero_dialog_route.dart';
-import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/screens/update_screen.dart';
-import 'package:app/screens/write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app/style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -52,20 +47,19 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
         child: Material(
           borderRadius: BorderRadius.circular(20),
           elevation: 5,
-          // color: Color(0xff1f1e21),
           child: Container(
             decoration: BoxDecoration(
                 color: Color(0xff1A1A1A),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: lightColor.withOpacity(0.3),
+                    color: Colors.grey.withOpacity(0.25),
                     offset: Offset(4, 4),
                     spreadRadius: 0,
-                    blurRadius: 9,
+                    blurRadius: 6,
                   ),
                   BoxShadow(
-                    color: bgColor.withOpacity(0.3),
+                    color: bgColor.withOpacity(0.25),
                     offset: Offset(-3, -3),
                     spreadRadius: 0,
                     blurRadius: 6,
@@ -74,42 +68,38 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 23),
               child: SingleChildScrollView(
-                child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      renderTopBar(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      widget.imagepath != ''
-                          ? Container(
-                              height: 200,
-                              width: 300,
-                              child: renderImageBox(),
-                            )
-                          : Container(),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            renderCategory(),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            renderCategoryDetail(),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            renderTitle(),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            renderContent(),
-                          ],
+                child: Column(children: [
+                  renderTopBar(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  widget.imagepath != ''
+                      ? Container(
+                          height: 200,
+                          width: 300,
+                          child: renderImageBox(),
+                        )
+                      : Container(),
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        renderCategory(),
+                        renderCategoryDetail(),
+                        SizedBox(
+                          height: 5,
                         ),
-                      ),
-                    ]),
+                        renderTitle(),
+                        Divider(
+                          height: 10,
+                          color: Colors.grey[800],
+                        ),
+                        renderContent(),
+                      ],
+                    ),
+                  ),
+                ]),
               ),
             ),
           ),
@@ -133,9 +123,42 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
           IconButton(
             iconSize: 20.0,
             onPressed: () {
-              final dao = GetIt.instance<MyReviewDao>();
-              dao.deleteMyReviewById(widget.id!);
-              Navigator.of(context).pop();
+              Get.defaultDialog(
+                backgroundColor: Color(0xff202020),
+                title: '',
+                titleStyle: TextStyle(fontSize: 0),
+                middleText: '게시물을 삭제할까요?',
+                middleTextStyle: TextStyle(fontSize: 12),
+                confirm: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(30, 30),
+                    primary: Color(0xff303030),
+                  ),
+                  onPressed: () {
+                    final dao = GetIt.instance<MyReviewDao>();
+                    dao.deleteMyReviewById(widget.id!);
+                    Get.back();
+                    Get.back();
+                  },
+                  child: Text(
+                    '확인',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                cancel: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(30, 30),
+                    primary: Color(0xff303030),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    '취소',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              );
             },
             icon: Icon(LineIcons.alternateTrashAlt),
           ),
@@ -251,11 +274,13 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
   renderTitle() {
     return Row(
       children: [
-        Text(
-          widget.title!,
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
+        Expanded(
+          child: Text(
+            widget.title!,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

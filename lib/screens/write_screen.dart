@@ -35,6 +35,7 @@ class _WriteScreenState extends State<WriteScreen> {
 
   static final List<String> categoryItems = <String>[
     '가전/가구/인테리어',
+    '의류/잡화',
     '음악/음반/아티스트',
     '영화/드라마/예능/콘텐츠',
     '음식/음식점/프랜차이즈',
@@ -271,13 +272,10 @@ class _WriteScreenState extends State<WriteScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: Text('마이뷰'),
-        ),
         body: SingleChildScrollView(
           reverse: true,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.fromLTRB(16, 50, 16, 0),
             child: Form(
               key: formKey,
               child: Column(

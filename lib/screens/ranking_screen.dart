@@ -2,8 +2,6 @@ import 'package:app/components/myreview_card.dart';
 import 'package:app/controller/categoryview_controller.dart';
 import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
-import 'package:app/screens/home_screen.dart';
-import 'package:app/style.dart';
 import 'package:app/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +18,7 @@ class _RankingScreenState extends State<RankingScreen> {
   final controller = Get.put(CategoryViewController());
   final dao = GetIt.instance<MyReviewDao>();
   int isSelected = 0;
-  late List<MyReviewData> myReviews;
+  late List<MyReviewData> myReviewsFiltered;
   String query = '';
   String category = '';
 
@@ -28,20 +26,19 @@ class _RankingScreenState extends State<RankingScreen> {
   void initState() {
     super.initState();
     init();
-    // category = '기타';
   }
 
   Future init() async {
     final allMyReviews = await dao.getAllData();
     setState(() {
-      this.myReviews = allMyReviews;
+      this.myReviewsFiltered = allMyReviews;
     });
   }
 
   searchReview(String query) async {
     print(controller.currentIndex.value);
     final allMyReviews = await dao.getAllData();
-    final myReviews = allMyReviews.where((myReview) {
+    final myReviewsFiltered = allMyReviews.where((myReview) {
       final titleLower = myReview.title.toLowerCase();
       final categoryLower = myReview.category.toLowerCase();
       final categoryDetailLower = myReview.categoryDetail.toLowerCase();
@@ -56,9 +53,7 @@ class _RankingScreenState extends State<RankingScreen> {
 
     setState(() {
       this.query = query;
-      this.myReviews = myReviews;
-      // print(query);
-      // print(myReviewsfiltered);
+      this.myReviewsFiltered = myReviewsFiltered;
     });
   }
 
@@ -86,7 +81,10 @@ class _RankingScreenState extends State<RankingScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     reverse: true,
                     itemBuilder: (_, index) {
-                      final _myReview = myReviews[index];
+                      var _myReview = myReviews[index];
+                      this.query == ''
+                          ? _myReview = myReviews[index]
+                          : _myReview = myReviewsFiltered[index];
                       return MyReviewCard(
                         id: _myReview.id,
                         imagepath: _myReview.imagepath,
@@ -98,7 +96,9 @@ class _RankingScreenState extends State<RankingScreen> {
                         createdAt: _myReview.createdAt,
                       );
                     },
-                    itemCount: myReviews.length);
+                    itemCount: this.query == ''
+                        ? myReviews.length
+                        : myReviewsFiltered.length);
               } else {
                 return Container();
               }
@@ -115,11 +115,13 @@ class _RankingScreenState extends State<RankingScreen> {
       delegate: SliverChildBuilderDelegate(
           (context, index) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: this.query == ''
+                    ? MediaQuery.of(context).size.height * 0.25
+                    : 0,
                 child: StreamBuilder<List<MyReviewData>>(
                   stream: dao.streamMyReviews(),
                   builder: (context, snapshot) {
-                    if (snapshot.data != null) {
+                    if (snapshot.data != null && this.query == '') {
                       final myReviews = snapshot.data!;
                       final groupByCategory =
                           myReviews.groupListsBy((e) => e.category);
@@ -177,6 +179,8 @@ class _RankingScreenState extends State<RankingScreen> {
                           ),
                         ],
                       );
+                    } else if (snapshot.data != null && this.query != '') {
+                      return Container();
                     } else {
                       return Column(
                         children: [
@@ -267,26 +271,29 @@ class _RankingScreenState extends State<RankingScreen> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ToggleSwitch(
-                initialLabelIndex: isSelected,
-                minWidth: 80.0,
-                minHeight: 30.0,
-                activeBgColor: Color(0xffd9d9d9),
-                inactiveBgColor: Color(0xff1a1a1a),
-                labels: ['최신순', '별점순'],
-                onToggle: (index) {
-                  setState(() {
-                    isSelected = index;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
+            padding: this.query == ''
+                ? EdgeInsets.symmetric(vertical: 10, horizontal: 16)
+                : null,
+            child: this.query == ''
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ToggleSwitch(
+                        initialLabelIndex: isSelected,
+                        minWidth: 80.0,
+                        minHeight: 30.0,
+                        activeBgColor: Color(0xffd9d9d9),
+                        inactiveBgColor: Color(0xff1a1a1a),
+                        labels: ['최신순', '별점순'],
+                        onToggle: (index) {
+                          setState(() {
+                            isSelected = index;
+                          });
+                        },
+                      ),
+                    ],
+                  )
+                : Container()),
         childCount: 1,
       ),
     );
@@ -314,9 +321,7 @@ class _RankingScreenState extends State<RankingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // HomeScreen homeScreen = HomeScreen();
     return Scaffold(
-      backgroundColor: AppColors.backgroundFadedColor,
       body: Stack(
         children: [
           Container(

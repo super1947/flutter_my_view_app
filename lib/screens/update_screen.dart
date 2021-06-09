@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:app/controller/app_controller.dart';
 import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';

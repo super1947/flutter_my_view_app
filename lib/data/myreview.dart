@@ -20,7 +20,9 @@ class MyReviewDao extends DatabaseAccessor<Database> with _$MyReviewDaoMixin {
   MyReviewDao(Database db) : super(db);
 
   Future<List<MyReviewData>> getAllData() => select(myReview).get();
+
   Stream<List<MyReviewData>> streamMyReviews() => select(myReview).watch();
+
   Stream<MyReviewData> streamMyReview(int id) =>
       (select(myReview)..where((tbl) => tbl.id.equals(id))).watchSingle();
 
@@ -31,8 +33,10 @@ class MyReviewDao extends DatabaseAccessor<Database> with _$MyReviewDaoMixin {
       (select(myReview)..where((tbl) => tbl.category.equals(text))).get();
 
   Future insertMyReview(MyReviewCompanion data) => into(myReview).insert(data);
+
   Future updateMyReview(MyReviewCompanion data) =>
       update(myReview).replace(data);
+
   Future deleteMyReviewById(int id) =>
       (delete(myReview)..where((tbl) => tbl.id.equals(id))).go();
 }

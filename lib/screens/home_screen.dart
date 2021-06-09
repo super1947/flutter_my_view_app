@@ -1,17 +1,13 @@
-import 'dart:async';
-
 import 'package:app/components/myreview_card.dart';
 import 'package:app/controller/app_controller.dart';
 import 'package:app/controller/categoryview_controller.dart';
 import 'package:app/data/database.dart';
 import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';
-import 'package:app/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-// import "package:collection/collection.dart";
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -160,7 +156,6 @@ class _HomeScreenState extends State<HomeScreen> {
         SafeArea(
             child: CustomScrollView(
           slivers: [
-            // renderSliverAppbar(),
             renderSliverTextBox('카테고리', 20),
             renderSliverCategoryCard(),
             renderSliverTextBox('목록', 0),
@@ -215,7 +210,11 @@ Widget _buildCategoryCard(int index, IconData icon, Color color, String title) {
         height: 35,
         child: Text(
           title,
-          style: subtitleStyle,
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            color: lightColor,
+          ),
         ),
       ),
     ],

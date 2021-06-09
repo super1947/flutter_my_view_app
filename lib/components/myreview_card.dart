@@ -2,13 +2,9 @@ import 'dart:io';
 import 'package:app/components/myreview_popup_card.dart';
 import 'package:app/controller/custom_rect_tween.dart';
 import 'package:app/controller/hero_dialog_route.dart';
-import 'package:app/data/database.dart';
-import 'package:app/data/myreview.dart';
 import 'package:app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 
 class MyReviewCard extends StatefulWidget {
   final int? id;
@@ -183,31 +179,32 @@ class _MyReviewCardState extends State<MyReviewCard> {
   }
 
   renderContent() {
-    final ca = widget.createdAt!;
-    final dateStr = '${ca.year}-${ca.month}-${ca.day}';
-
-    return Container(
-      child: Text(
-        widget.content!,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          color: Colors.grey[200],
+    return Row(children: [
+      Expanded(
+        child: Text(
+          widget.content!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.grey[200],
+          ),
         ),
       ),
-    );
+    ]);
   }
 
   renderTitle() {
     return Row(
       children: [
-        Text(
-          widget.title!,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
+        Expanded(
+          child: Text(
+            widget.title!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

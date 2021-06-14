@@ -1,7 +1,7 @@
-import 'package:app/controller/app_controller.dart';
-import 'package:app/screens/home_screen.dart';
-import 'package:app/screens/ranking_screen.dart';
-import 'package:app/screens/write_screen.dart';
+import 'package:myview/controller/app_controller.dart';
+import 'package:myview/screens/home_screen.dart';
+import 'package:myview/screens/ranking_screen.dart';
+import 'package:myview/screens/write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

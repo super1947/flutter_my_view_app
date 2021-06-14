@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:app/controller/custom_rect_tween.dart';
-import 'package:app/data/myreview.dart';
-import 'package:app/screens/update_screen.dart';
+import 'package:myview/controller/custom_rect_tween.dart';
+import 'package:myview/data/myreview.dart';
+import 'package:myview/screens/update_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:app/style.dart';
+import 'package:myview/style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';

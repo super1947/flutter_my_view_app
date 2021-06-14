@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:app/data/database.dart';
-import 'package:app/data/myreview.dart';
-import 'package:app/style.dart';
+import 'package:myview/data/database.dart';
+import 'package:myview/data/myreview.dart';
+import 'package:myview/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_it/get_it.dart';
@@ -68,10 +68,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     setState(() {
       if (pickedFile != null) {
         this.imagepath = File(pickedFile.path).path;
-        print(widget.imagepath);
       } else {
         this.imagepath = '';
-        print(widget.imagepath);
       }
     });
   }
@@ -278,7 +276,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     imagepath: Value(this.imagepath!),
                   );
                   await dao.updateMyReview(myReviewCompanion);
-                  print(myReviewCompanion);
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 }

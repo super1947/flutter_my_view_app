@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:app/components/myreview_popup_card.dart';
-import 'package:app/controller/custom_rect_tween.dart';
-import 'package:app/controller/hero_dialog_route.dart';
-import 'package:app/style.dart';
+import 'package:myview/components/myreview_popup_card.dart';
+import 'package:myview/controller/custom_rect_tween.dart';
+import 'package:myview/controller/hero_dialog_route.dart';
+import 'package:myview/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 

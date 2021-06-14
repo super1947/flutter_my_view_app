@@ -1,10 +1,10 @@
-import 'package:app/app.dart';
-import 'package:app/binding/init_binding.dart';
-import 'package:app/data/database.dart';
-import 'package:app/data/myreview.dart';
-import 'package:app/screens/home_screen.dart';
-import 'package:app/screens/ranking_screen.dart';
-import 'package:app/screens/write_screen.dart';
+import 'package:myview/app.dart';
+import 'package:myview/binding/init_binding.dart';
+import 'package:myview/data/database.dart';
+import 'package:myview/data/myreview.dart';
+import 'package:myview/screens/home_screen.dart';
+import 'package:myview/screens/ranking_screen.dart';
+import 'package:myview/screens/write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'My_View',
         theme: ThemeData(
           brightness: Brightness.dark,

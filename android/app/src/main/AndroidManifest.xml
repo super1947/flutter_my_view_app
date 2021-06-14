@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.app">
+    package="com.myview.mobile">
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
     </queries>
    <application
-        android:label="app"
+        android:label="마이뷰"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

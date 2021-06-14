@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:app/controller/app_controller.dart';
-import 'package:app/data/database.dart';
-import 'package:app/data/myreview.dart';
-import 'package:app/style.dart';
+import 'package:myview/controller/app_controller.dart';
+import 'package:myview/data/database.dart';
+import 'package:myview/data/myreview.dart';
+import 'package:myview/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_it/get_it.dart';
@@ -249,7 +249,6 @@ class _WriteScreenState extends State<WriteScreen> {
                     myReviewCompanion,
                   );
                   AppController.to.currentIndex.value = 0;
-                  print(myReviewCompanion);
                 }
               }
             },

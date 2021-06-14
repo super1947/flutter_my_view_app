@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:app/data/myreview.dart';
+import 'package:myview/data/myreview.dart';
 import 'package:moor/ffi.dart';
 import 'package:moor/moor.dart';
 import 'package:path/path.dart' as p;

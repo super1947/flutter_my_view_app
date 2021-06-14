@@ -1,8 +1,8 @@
-import 'package:app/components/myreview_card.dart';
-import 'package:app/controller/categoryview_controller.dart';
-import 'package:app/data/database.dart';
-import 'package:app/data/myreview.dart';
-import 'package:app/widget/search_widget.dart';
+import 'package:myview/components/myreview_card.dart';
+import 'package:myview/controller/categoryview_controller.dart';
+import 'package:myview/data/database.dart';
+import 'package:myview/data/myreview.dart';
+import 'package:myview/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';

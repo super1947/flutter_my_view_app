@@ -8,6 +8,7 @@ import 'package:myview/screens/write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   if (!GetIt.instance.isRegistered<MyReviewDao>()) {
@@ -16,6 +17,7 @@ void main() {
     GetIt.instance.registerSingleton<MyReviewDao>(MyReviewDao(db));
   }
   runApp(MyApp());
+  callPermissions();
 }
 
 class MyApp extends StatelessWidget {
@@ -39,4 +41,14 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/write', page: () => WriteScreen()),
         ]);
   }
+}
+
+Future<String> callPermissions() async {
+  var status = await Permission.camera.request();
+
+  if (status.isGranted) {
+    return 'success';
+  }
+
+  return 'failed';
 }

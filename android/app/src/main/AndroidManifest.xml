@@ -1,10 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myview.mobile">
-    <queries>
+    <!-- <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
-    </queries>
+    </queries> -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
    <application
         android:label="마이뷰"
         android:icon="@mipmap/ic_launcher">

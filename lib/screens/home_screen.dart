@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => Container(
-          padding: EdgeInsets.fromLTRB(25, toppadding, 0, 0),
+          padding: EdgeInsets.fromLTRB(25, toppadding, 0, 5),
           child: Text(
             text,
             style: TextStyle(
@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SafeArea(
             child: CustomScrollView(
           slivers: [
-            renderSliverTextBox('카테고리', 20),
+            renderSliverTextBox('카테고리', 30),
             renderSliverCategoryCard(),
             renderSliverTextBox('목록', 0),
             renderHomeReviewCard(),
@@ -177,8 +177,8 @@ Widget _buildCategoryCard(int index, IconData icon, Color color, String title) {
           CategoryViewController.to.currentIndex.value = index;
         },
         child: Container(
-          height: 75.0,
-          width: 75.0,
+          height: 85.0,
+          width: 85.0,
           margin: EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
               color: Color(0xff1A1A1A),
@@ -211,7 +211,7 @@ Widget _buildCategoryCard(int index, IconData icon, Color color, String title) {
         child: Text(
           title,
           style: TextStyle(
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: FontWeight.w600,
             color: lightColor,
           ),

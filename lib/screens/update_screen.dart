@@ -49,12 +49,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
     imagepath = widget.imagepath;
     id = widget.id;
   }
+  
 
   static final List<String> categoryItems = <String>[
     '가전/가구/인테리어',
     '의류/잡화',
     '음악/음반/아티스트',
-    '영화/드라마/예능/콘텐츠',
+    '영화/TV프로그램',
     '음식/음식점/프랜차이즈',
     '기타'
   ];

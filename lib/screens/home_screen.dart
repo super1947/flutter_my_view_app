@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,6 +18,29 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final dao = GetIt.instance<MyReviewDao>();
   final controller = Get.put(CategoryViewController());
+
+  late final BannerAd banner;
+
+  @override
+  void initState() {
+    super.initState();
+    banner = BannerAd(
+      size: AdSize.banner,
+      adUnitId: "ca-app-pub-7507714493839382/3815669810",
+      listener: BannerAdListener(
+        onAdFailedToLoad: (ad, error) {
+          print(error);
+        },
+      ),
+      request: AdRequest(),
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    banner.dispose();
+  }
 
   renderHomeReviewCard() {
     return SliverList(
@@ -107,19 +131,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         _buildCategoryCard(1, FontAwesomeIcons.couch,
-                            Color(0xff0092cc), '가전/가구/\n\   인테리어'),
+                            Color(0xff0092cc), '가전/가구/\n\ 인테리어'),
                         SizedBox(width: 20),
                         _buildCategoryCard(2, FontAwesomeIcons.tshirt,
                             Color(0xff272AB0), '의류/잡화'),
                         SizedBox(width: 20),
                         _buildCategoryCard(3, FontAwesomeIcons.guitar,
-                            Color(0xff05F4B7), '음악/음반/\n   아티스트'),
+                            Color(0xff05F4B7), '음악/음반/\n 아티스트'),
                         SizedBox(width: 20),
                         _buildCategoryCard(4, FontAwesomeIcons.video,
-                            Color(0xff5626C4), '영화/드라마/\n 예능/콘텐츠'),
+                            Color(0xff5626C4), '영화/\n TV프로그램'),
                         SizedBox(width: 20),
                         _buildCategoryCard(5, FontAwesomeIcons.hamburger,
-                            Color(0xffFB8122), '음식/음식점/\n   프랜차이즈'),
+                            Color(0xffFB8122), '음식/음식점/\n 프랜차이즈'),
                         SizedBox(width: 20),
                         _buildCategoryCard(6, FontAwesomeIcons.solidCommentDots,
                             Color(0xffFA255E), '기타'),
@@ -139,30 +163,40 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xff050505),
-                Color(0xff080808),
-              ],
-              stops: [0.0, 1],
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xff050505),
+                  Color(0xff080808),
+                ],
+                stops: [0.0, 1],
+              ),
             ),
           ),
-        ),
-        SafeArea(
+          SafeArea(
             child: CustomScrollView(
-          slivers: [
-            renderSliverTextBox('카테고리', 30),
-            renderSliverCategoryCard(),
-            renderSliverTextBox('목록', 0),
-            renderHomeReviewCard(),
-          ],
-        )),
-      ]),
+              slivers: [
+                renderSliverTextBox('카테고리', 30),
+                renderSliverCategoryCard(),
+                renderSliverTextBox('목록', 0),
+                renderHomeReviewCard(),
+              ],
+            ),
+          ),
+          Container(
+            height: 50.0,
+            child: AdWidget(
+              ad: this.banner,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

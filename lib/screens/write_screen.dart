@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:myview/controller/app_controller.dart';
 import 'package:myview/data/database.dart';
 import 'package:myview/data/myreview.dart';
@@ -26,18 +27,36 @@ class _WriteScreenState extends State<WriteScreen> {
   String? categoryDetail;
   String? imagepath;
   String? categoryResult;
+  late final BannerAd banner;
 
   @override
   void initState() {
     super.initState();
     imagepath = '';
+
+    banner = BannerAd(
+      size: AdSize.banner,
+      adUnitId: "ca-app-pub-7507714493839382/8476630248",
+      listener: BannerAdListener(
+        onAdFailedToLoad: (ad, error) {
+          print(error);
+        },
+      ),
+      request: AdRequest(),
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    banner.dispose();
   }
 
   static final List<String> categoryItems = <String>[
     '가전/가구/인테리어',
     '의류/잡화',
     '음악/음반/아티스트',
-    '영화/드라마/예능/콘텐츠',
+    '영화/TV프로그램',
     '음식/음식점/프랜차이즈',
     '기타'
   ];
@@ -159,7 +178,7 @@ class _WriteScreenState extends State<WriteScreen> {
                 width: 2.0,
               ),
             ),
-            hintText: '이름',
+            hintText: '브랜드/상품명',
           ),
           onSaved: (val) {
             this.title = val;
@@ -273,47 +292,57 @@ class _WriteScreenState extends State<WriteScreen> {
         backgroundColor: Colors.black,
         body: SingleChildScrollView(
           reverse: true,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 50, 16, 0),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  this.imagepath == ''
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            renderImagePickerBox(
-                                LineIcons.camera, '사진 찍기', ImageSource.camera),
-                            SizedBox(width: 30.0),
-                            renderImagePickerBox(
-                                LineIcons.image, '이미지 선택', ImageSource.gallery),
-                          ],
-                        )
-                      : Container(
-                          height: MediaQuery.of(context).size.height * 0.18,
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          child: Container(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(
-                                File(this.imagepath!),
-                                fit: BoxFit.fill,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(16, 50, 16, 0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      this.imagepath == ''
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                renderImagePickerBox(LineIcons.camera, '사진 찍기',
+                                    ImageSource.camera),
+                                SizedBox(width: 30.0),
+                                renderImagePickerBox(LineIcons.image, '이미지 선택',
+                                    ImageSource.gallery),
+                              ],
+                            )
+                          : Container(
+                              height: MediaQuery.of(context).size.height * 0.18,
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              child: Container(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(
+                                    File(this.imagepath!),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                  renderTextFields(),
-                  SizedBox(
-                    height: 10,
+                      renderTextFields(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      renderElevationButton(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
-                  renderElevationButton(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+                ),
               ),
-            ),
+              Container(
+                height: 50.0,
+                child: AdWidget(
+                  ad: this.banner,
+                ),
+              ),
+            ],
           ),
         ),
       ),

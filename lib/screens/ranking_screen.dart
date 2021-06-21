@@ -1,3 +1,4 @@
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:myview/components/myreview_card.dart';
 import 'package:myview/controller/categoryview_controller.dart';
 import 'package:myview/data/database.dart';
@@ -21,6 +22,24 @@ class _RankingScreenState extends State<RankingScreen> {
   late List<MyReviewData> myReviewsFiltered;
   String query = '';
   String category = '';
+  late final BannerAd banner;
+
+  @override
+  void initState() {
+    super.initState();
+    banner = BannerAd(
+      size: AdSize.banner,
+      adUnitId: "ca-app-pub-7507714493839382/5543399042",
+      listener: BannerAdListener(),
+      request: AdRequest(),
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    banner.dispose();
+  }
 
   searchReview(String query) async {
     final allMyReviews = await dao.getAllData();
@@ -123,7 +142,7 @@ class _RankingScreenState extends State<RankingScreen> {
                                     '가전/가구/\n인테리어',
                                     '${groupByCategory['가전/가구/인테리어'] == null ? 0 : groupByCategory['가전/가구/인테리어']?.length}',
                                     Colors.orange,
-                                    13.0),
+                                    11.0),
                                 _buildCategoryGridCard(
                                     2,
                                     '의류/잡화',
@@ -135,7 +154,7 @@ class _RankingScreenState extends State<RankingScreen> {
                                     '음악/음반/\n아티스트',
                                     '${groupByCategory['음악/음반/아티스트'] == null ? 0 : groupByCategory['음악/음반/아티스트']?.length}',
                                     Colors.red,
-                                    13.0),
+                                    11.0),
                               ],
                             ),
                           ),
@@ -144,10 +163,10 @@ class _RankingScreenState extends State<RankingScreen> {
                               children: [
                                 _buildCategoryGridCard(
                                     4,
-                                    '영화/드라마/\n예능/콘텐츠',
-                                    '${groupByCategory['영화/드라마/예능/콘텐츠'] == null ? 0 : groupByCategory['영화/드라마/예능/콘텐츠']?.length}',
+                                    '영화/TV프로그램',
+                                    '${groupByCategory['영화/TV프로그램'] == null ? 0 : groupByCategory['영화/TV프로그램']?.length}',
                                     Colors.green,
-                                    13.0),
+                                    14.0),
                                 _buildCategoryGridCard(
                                     5,
                                     '음식/음식점/\n프랜차이즈',
@@ -187,8 +206,8 @@ class _RankingScreenState extends State<RankingScreen> {
                           Flexible(
                             child: Row(
                               children: [
-                                _buildCategoryGridCard(4, '영화/드라마/\n예능/콘텐츠',
-                                    '0', Colors.green, 13.0),
+                                _buildCategoryGridCard(
+                                    4, '영화/\nTV프로그램', '0', Colors.green, 13.0),
                                 _buildCategoryGridCard(5, '음식/음식점/\n프랜차이즈', '0',
                                     Colors.lightBlue, 13.0),
                                 _buildCategoryGridCard(
@@ -209,6 +228,7 @@ class _RankingScreenState extends State<RankingScreen> {
   Expanded _buildCategoryGridCard(
       int index, String title, String count, MaterialColor color, double size) {
     return Expanded(
+      flex: controller.currentIndex == index.obs ? 2 : 1,
       child: InkWell(
         onTap: () {
           setState(() {
@@ -296,7 +316,7 @@ class _RankingScreenState extends State<RankingScreen> {
       case 3:
         return '음악/음반/아티스트';
       case 4:
-        return '영화/드라마/예능/콘텐츠';
+        return '영화/TV프로그램/콘텐츠';
       case 5:
         return '음식/음식점/프랜차이즈';
       case 6:
@@ -313,6 +333,7 @@ class _RankingScreenState extends State<RankingScreen> {
       },
       child: Scaffold(
         body: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
             Container(
               decoration: const BoxDecoration(
@@ -336,6 +357,12 @@ class _RankingScreenState extends State<RankingScreen> {
                   renderToggleButton(),
                   renderRankingReviewCard(categoryStateController()!),
                 ],
+              ),
+            ),
+            Container(
+              height: 50.0,
+              child: AdWidget(
+                ad: this.banner,
               ),
             ),
           ],

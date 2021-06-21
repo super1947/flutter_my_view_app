@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:myview/components/image_expand_card.dart';
 import 'package:myview/controller/custom_rect_tween.dart';
+import 'package:myview/controller/hero_dialog_route.dart';
 import 'package:myview/data/myreview.dart';
 import 'package:myview/screens/update_screen.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +97,9 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
                           height: 10,
                           color: Colors.grey[800],
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         renderContent(),
                       ],
                     ),
@@ -128,10 +133,10 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
                 title: '',
                 titleStyle: TextStyle(fontSize: 0),
                 middleText: '게시물을 삭제할까요?',
-                middleTextStyle: TextStyle(fontSize: 12),
+                middleTextStyle: TextStyle(fontSize: 15),
                 confirm: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(30, 30),
+                    minimumSize: Size(70, 40),
                     primary: Color(0xff303030),
                   ),
                   onPressed: () {
@@ -147,7 +152,7 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
                 ),
                 cancel: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(30, 30),
+                    minimumSize: Size(70, 40),
                     primary: Color(0xff303030),
                   ),
                   onPressed: () {
@@ -184,12 +189,23 @@ class _MyReviewPopUpCardState extends State<MyReviewPopUpCard> {
 
   renderImageBox() {
     if (widget.imagepath != '')
-      return Container(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.file(
-            File(widget.imagepath!),
-            fit: BoxFit.fill,
+      return GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Center(
+              child: ImageExpandCard(
+                imagepath: widget.imagepath,
+              ),
+            ),
+          ));
+        },
+        child: Container(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(
+              File(widget.imagepath!),
+              fit: BoxFit.fill,
+            ),
           ),
         ),
       );
